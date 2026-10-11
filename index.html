@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic CEO Protocol — Human-as-a-Judge & Zero-Bottleneck AI Ruleset</title>
+  <meta name="description" content="Transform AI coding assistants into an autonomous executive swarm. Human-as-a-Judge protocol inspired by Lauren Tan (poteto / pstack).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0b0e;
+      --bg-card: #12141a;
+      --bg-card-hover: #171a22;
+      --bg-subtle: #1c202a;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-glow: rgba(212, 175, 55, 0.25);
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #34d399;
+      --accent-rose: #f43f5e;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-gold: rgba(212, 175, 55, 0.22);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 70%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+    }
+
+    /* Ambient Header & Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(10, 11, 14, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 1rem 2rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px var(--gold-glow));
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      color: #fff;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .lang-toggle {
+      display: flex;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 30px;
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    .lang-btn {
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-btn.active {
+      background: var(--gold-primary);
+      color: #000;
+      box-shadow: 0 2px 8px var(--gold-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1100px;
+      margin: 4.5rem auto 3rem;
+      padding: 0 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      padding: 0.4rem 1.1rem;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #ffffff 40%, var(--gold-light) 75%, var(--gold-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      color: #0b0c10;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 8px 24px var(--gold-glow);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Comparison Section */
+    .section-container {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .comp-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .comp-card.legacy {
+      border-color: rgba(244, 63, 94, 0.25);
+    }
+
+    .comp-card.legacy::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent-rose);
+    }
+
+    .comp-card.ceo {
+      border-color: var(--border-gold);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.08);
+    }
+
+    .comp-card.ceo::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
+    }
+
+    .comp-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .comp-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .comp-item {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .comp-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Architecture Visualizer */
+    .arch-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      margin-top: 1.5rem;
+      position: relative;
+    }
+
+    .arch-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .arch-step-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .arch-step-card:hover {
+      border-color: var(--gold-primary);
+      transform: translateY(-4px);
+    }
+
+    .arch-step-num {
+      width: 32px;
+      height: 32px;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin: 0 auto 1rem;
+      border: 1px solid var(--border-gold);
+    }
+
+    .arch-step-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .arch-step-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    /* 5 Rules Tabs / Grid */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .rule-card:hover {
+      border-color: var(--border-gold);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+    }
+
+    .rule-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+
+    .rule-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .rule-body {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .rule-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1rem;
+    }
+
+    .btn-copy-rule {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: var(--transition);
+    }
+
+    .btn-copy-rule:hover {
+      background: var(--gold-primary);
+      color: #000;
+    }
+
+    /* Scorecard Showcase Preview */
+    .scorecard-preview {
+      background: #0d0f14;
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      line-height: 1.7;
+      overflow-x: auto;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .scorecard-title {
+      color: var(--gold-primary);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-bottom: 1px dashed var(--border-gold);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .scorecard-h {
+      color: var(--accent-cyan);
+      font-weight: 600;
+      margin-top: 0.8rem;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid var(--gold-primary);
+      padding: 0.85rem 1.4rem;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px var(--gold-glow);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-top: 5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-primary);
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1rem; }
+      .hero { margin-top: 2.5rem; }
+      .arch-steps { grid-template-columns: 1fr; }
+      .toast { left: 1rem; right: 1rem; bottom: 1rem; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <span class="brand-icon">⚖️</span>
+        <span class="brand-title">AGENTIC CEO PROTOCOL</span>
+      </a>
+      <div class="nav-actions">
+        <div class="lang-toggle" id="langToggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="th">TH</button>
+        </div>
+        <button class="btn-copy-rule" onclick="copyMasterPrompt()">
+          <span>📦</span> <span class="lang-txt" data-en="Copy Master Prompt" data-th="คัดลอก Master Prompt">Copy Master Prompt</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span>⚡</span>
+      <span class="lang-txt" data-en="Human-as-a-Judge & Zero-Bottleneck Architecture" data-th="ระบบ Human-as-a-Judge สถาปัตยกรรมไร้คอขวด">Human-as-a-Judge & Zero-Bottleneck Architecture</span>
+    </div>
+    <h1 class="hero-title lang-txt" 
+        data-en="Stop Micromanaging. Rule as an AI CEO." 
+        data-th="เลิกเป็นผู้จัดการยิบย่อย นั่งบัลลังก์ตัดสินดั่งผู้บริหารสูงสุด">
+      Stop Micromanaging. Rule as an AI CEO.
+    </h1>
+    <p class="hero-subtitle lang-txt"
+       data-en="Inspired by Lauren Tan (poteto / pstack). Transform AI coding agents from needy interns into autonomous specialist swarms that self-verify and present proven evidence via 10-second Judge Scorecards."
+       data-th="แรงบันดาลใจจาก Lauren Tan (poteto / pstack) พลิกโฉม AI จากเด็กฝึกงานที่ถามทุกฝากก้าว สู่ฝูง Subagent ผู้บริหารที่ทำงานจบเอง พิสูจน์ผลจริง และส่งมอบงานด้วย Executive Judge Scorecard ใน 10 วินาที">
+      Inspired by Lauren Tan (poteto / pstack). Transform AI coding agents from needy interns into autonomous specialist swarms that self-verify and present proven evidence via 10-second Judge Scorecards.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="btn-gold" onclick="copyMasterPrompt()">
+        <span>⚡</span>
+        <span class="lang-txt" data-en="Get 1-Click Master Prompt" data-th="คัดลอก Master Prompt ทันที">Get 1-Click Master Prompt</span>
+      </button>
+      <a href="#rules" class="btn-ghost">
+        <span>📜</span>
+        <span class="lang-txt" data-en="Explore 5 Universal Rules" data-th="ดู 5 กฎเหล็กสากล">Explore 5 Universal Rules</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Before vs After Comparison -->
+  <section class="section-container">
+    <div class="section-header">
+      <div class="section-tag lang-txt" data-en="PARADIGM SHIFT" data-th="การก้าวกระโดดทางกระบวนทัศน์">PARADIGM SHIFT</div>
+      <h2 class="section-title lang-txt" data-en="Micromanager vs. Autonomous Judge" data-th="พนักงานฝึกงาน vs. ผู้พิพากษาไร้คอขวด">Micromanager vs. Autonomous Judge</h2>
+    </div>
+
+    <div class="comparison-grid">
+      <!-- Legacy Card -->
+      <div class="comp-card legacy">
+        <div class="comp-header">
+          <span style="font-size: 1.5rem;">❌</span>
+          <div>
+            <div class="comp-title lang-txt" data-en="Human-in-the-Loop (Legacy)" data-th="Human-in-the-Loop (แบบเก่า)">Human-in-the-Loop (Legacy)</div>
+            <div style="font-size: 0.8rem; color: var(--accent-rose);" class="lang-txt" data-en="High-friction bottleneck" data-th="ติดคอขวด เหนื่อยตอบคำถาม">High-friction bottleneck</div>
+          </div>
+        </div>
+        <ul class="comp-list">
+          <li class="comp-item">
+            <span class="comp-icon">🛑</span>
+            <span class="lang-txt"
+                  data-en="Blocks execution on trivial reversible steps (asking 'Should I write this file?')."
+                  data-th="หยุดถามคำถามหยุมหยิมในงานที่ย้อนกลับได้ ('จะให้เขียนไฟล์นี้เลยไหมครับ?').">
+              Blocks execution on trivial reversible steps (asking "Should I write this file?").
+            </span>
+          </li>
+          <li class="comp-item">
+            <span class="comp-icon">🛑</span>
+            <span class="lang-txt"
+                  data-en="Dumps testing back on the human ('Please run localhost and check if button works')."
+                  data-th="โยนภาระเทสต์ให้ผู้ใช้ ('รบกวนพี่ลองกดเทสต์บนหน้าเว็บดูนะครับว่ามีบั๊กไหม').">
+              Dumps testing back on the human ("Please run localhost and check if button works").
+            </span>
+          </li>
+          <li class="comp-item">
+            <span class="comp-icon">🛑</span>
+            <span class="lang-txt"
+                  data-en="Drip-feeds minimum code, forcing you to prompt 5 more times for basic polish."
+                  data-th="กั๊กงานทำทีละนิด รอให้ถามซ้ำว่า 'ทำอะไรต่อได้อีก' ถึงจะยอมทำฟีเจอร์พื้นฐาน.">
+              Drip-feeds minimum code, forcing you to prompt 5 more times for basic polish.
+            </span>
+          </li>
+          <li class="comp-item">
+            <span class="comp-icon">🛑</span>
+            <span class="lang-txt"
+                  data-en="Wastes costly frontier tokens on raw directory globbing and log reading."
+                  data-th="ใช้โมเดลราคาสูงไปกวาดหาไฟล์ดิบหรืออ่าน Log สิ้นเปลืองโควต้าโดยไม่จำเป็น.">
+              Wastes costly frontier tokens on raw directory globbing and log reading.
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- CEO Card -->
+      <div class="comp-card ceo">
+        <div class="comp-header">
+          <span style="font-size: 1.5rem;">⚡</span>
+          <div>
+            <div class="comp-title lang-txt" data-en="Human-as-a-Judge (CEO Protocol)" data-th="Human-as-a-Judge (CEO Protocol)">Human-as-a-Judge (CEO Protocol)</div>
+            <div style="font-size: 0.8rem; color: var(--gold-light);" class="lang-txt" data-en="Zero-bottleneck executive velocity" data-th="ความเร็วระดับผู้บริหาร ไร้คอขวด">Zero-bottleneck executive velocity</div>
+          </div>
+        </div>
+        <ul class="comp-list">
+          <li class="comp-item">
+            <span class="comp-icon">✅</span>
+            <span class="lang-txt"
+                  data-en="Proceed, then present: Autonomous end-to-end execution on all reversible actions."
+                  data-th="ลุยให้จบแล้ววางให้ตัดสิน: ตัดสินใจลงมือทำเองตั้งแต่ต้นจนจบในทุกงานที่ย้อนกลับได้.">
+              Proceed, then present: Autonomous end-to-end execution on all reversible actions.
+            </span>
+          </li>
+          <li class="comp-item">
+            <span class="comp-icon">✅</span>
+            <span class="lang-txt"
+                  data-en="Prove It Works: Runs automated verification scripts, asserts green before delivery."
+                  data-th="พิสูจน์ผลด้วยสคริปต์จริง: รันเทสต์และยิง API จริง ซ่อมแซมตัวเองจนเขียว 100% ก่อนส่ง.">
+              Prove It Works: Runs automated verification scripts, asserts green before delivery.
+            </span>
+          </li>
+          <li class="comp-item">
+            <span class="comp-icon">✅</span>
+            <span class="lang-txt"
+                  data-en="Zero Drip-Feeding: Pre-emptively builds shortcuts, responsive edges, and error states."
+                  data-th="คิดล่วงหน้าทำให้ครบวงจร: มัดรวมฟีเจอร์สำคัญ คีย์ลัด และจุดดักเออเรอร์เสร็จในรอบเดียว.">
+              Zero Drip-Feeding: Pre-emptively builds shortcuts, responsive edges, and error states.
+            </span>
+          </li>
+          <li class="comp-item">
+            <span class="comp-icon">✅</span>
+            <span class="lang-txt"
+                  data-en="3-Tier Cognitive Routing: Flash (Scout) ➔ Pro (Workhorse) ➔ Opus (Deep Architect)."
+                  data-th="แบ่งสมอง 3 ระดับ: Flash (กวาดข้อมูลไว) ➔ Pro (สร้างโค้ดมาตรฐาน) ➔ Opus (สถาปัตย์ขั้นสูง).">
+              3-Tier Cognitive Routing: Flash (Scout) ➔ Pro (Workhorse) ➔ Opus (Deep Architect).
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Architecture Flow -->
+  <section class="section-container">
+    <div class="section-header">
+      <div class="section-tag lang-txt" data-en="PIPELINE OVERVIEW" data-th="กระบวนการทำงาน">PIPELINE OVERVIEW</div>
+      <h2 class="section-title lang-txt" data-en="The Autonomous Swarm Lifecycle" data-th="วงจรการทำงานของฝูง Subagent อัจฉริยะ">The Autonomous Swarm Lifecycle</h2>
+    </div>
+
+    <div class="arch-container">
+      <div class="arch-steps">
+        <div class="arch-step-card">
+          <div class="arch-step-num">1</div>
+          <div class="arch-step-title lang-txt" data-en="Executive Intent" data-th="กำหนดเป้าหมาย">Executive Intent</div>
+          <div class="arch-step-desc lang-txt"
+               data-en="Human acts as Judge, providing clear, high-level objectives without micromanaging steps."
+               data-th="ผู้บริหารมอบหมายโจทย์ระดับสูง ชัดเจน โดยไม่ต้องคอยกำกับขั้นตอนย่อย">
+            Human acts as Judge, providing clear, high-level objectives without micromanaging steps.
+          </div>
+        </div>
+
+        <div class="arch-step-card">
+          <div class="arch-step-num">2</div>
+          <div class="arch-step-title lang-txt" data-en="Parallel Swarm" data-th="กระจายงานคู่ขนาน">Parallel Swarm</div>
+          <div class="arch-step-desc lang-txt"
+               data-en="Decomposes tasks across 3-tier subagents (Flash, Pro, Opus) working concurrently."
+               data-th="แตกงานให้ Subagents เฉพาะทางลุยพร้อมกันตามความยากของงานใน 3 ระดับ">
+            Decomposes tasks across 3-tier subagents (Flash, Pro, Opus) working concurrently.
+          </div>
+        </div>
+
+        <div class="arch-step-card">
+          <div class="arch-step-num">3</div>
+          <div class="arch-step-title lang-txt" data-en="Self-Healing Gate" data-th="ตรวจและซ่อมตัวเอง">Self-Healing Gate</div>
+          <div class="arch-step-desc lang-txt"
+               data-en="Automated test runners audit syntax, APIs, and builds. Auto-heals failures silently."
+               data-th="สคริปต์ตรวจจับข้อผิดพลาด รันเทสต์ ยิง API จริง และวนซ่อมตัวเองจนผ่าน 100%">
+            Automated test runners audit syntax, APIs, and builds. Auto-heals failures silently.
+          </div>
+        </div>
+
+        <div class="arch-step-card">
+          <div class="arch-step-num">4</div>
+          <div class="arch-step-title lang-txt" data-en="Judge Scorecard" data-th="ส่งมอบ Scorecard">Judge Scorecard</div>
+          <div class="arch-step-desc lang-txt"
+               data-en="Presents verifiable evidence, live URLs, and git links for a 10-second human gavel decision."
+               data-th="รายงานหลักฐานพิสูจน์ผล ลิงก์ระบบจริง จบใน 10 วินาทีให้ผู้บริหารเคาะอนุมัติ">
+            Presents verifiable evidence, live URLs, and git links for a 10-second human gavel decision.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 5 Universal Rules -->
+  <section class="section-container" id="rules">
+    <div class="section-header">
+      <div class="section-tag lang-txt" data-en="CORE DIRECTIVES" data-th="5 กฎเหล็กประจำการ">CORE DIRECTIVES</div>
+      <h2 class="section-title lang-txt" data-en="The 5 Universal Rule Modules" data-th="5 โมดูลกฎเหล็กสากล">The 5 Universal Rule Modules</h2>
+    </div>
+
+    <div class="rules-grid">
+      <!-- Rule 1 -->
+      <div class="rule-card">
+        <div>
+          <span class="rule-badge">RULE 01</span>
+          <h3 class="rule-title lang-txt" data-en="Human-as-a-Judge Protocol" data-th="ระบบ Human-as-a-Judge">Human-as-a-Judge Protocol</h3>
+          <p class="rule-body lang-txt"
+             data-en="Never block on the human for reversible actions. Prove it works with real verification scripts. Zero drip-feeding with pre-ship self-expansion."
+             data-th="ห้ามหยุดถามระหว่างทางในงานที่ย้อนกลับได้ พิสูจน์ผลด้วยสคริปต์จริงก่อนส่ง และคิดเผื่อทำให้ครบวงจรในรอบเดียว (Zero Drip-Feeding).">
+            Never block on the human for reversible actions. Prove it works with real verification scripts. Zero drip-feeding with pre-ship self-expansion.
+          </p>
+        </div>
+        <div class="rule-footer">
+          <button class="btn-copy-rule" onclick="copyRule('rule1')">
+            <span>📋</span> <span class="lang-txt" data-en="Copy Rule 01" data-th="คัดลอก กฎ 01">Copy Rule 01</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rule 2 -->
+      <div class="rule-card">
+        <div>
+          <span class="rule-badge">RULE 02</span>
+          <h3 class="rule-title lang-txt" data-en="3-Tier Smart Model Routing" data-th="การเลือกใช้รุ่นสมอง 3 ระดับ">3-Tier Smart Model Routing</h3>
+          <p class="rule-body lang-txt"
+             data-en="Allocate cognitive budget strictly: Flash for speed scouts & raw globbing, Pro for standard features & bugfixes, Opus/Frontier for deep architectural reasoning."
+             data-th="จัดสรรทรัพยากรสมองตามความยาก: Flash สำหรับกวาดข้อมูลไว, Pro สำหรับงานโค้ดทั่วไป, Opus/Frontier สำหรับสถาปัตยกรรมระดับลึก.">
+            Allocate cognitive budget strictly: Flash for speed scouts & raw globbing, Pro for standard features & bugfixes, Opus/Frontier for deep architectural reasoning.
+          </p>
+        </div>
+        <div class="rule-footer">
+          <button class="btn-copy-rule" onclick="copyRule('rule2')">
+            <span>📋</span> <span class="lang-txt" data-en="Copy Rule 02" data-th="คัดลอก กฎ 02">Copy Rule 02</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rule 3 -->
+      <div class="rule-card">
+        <div>
+          <span class="rule-badge">RULE 03</span>
+          <h3 class="rule-title lang-txt" data-en="Parallel Subagent Swarm" data-th="กระจายงาน Subagent คู่ขนาน">Parallel Subagent Swarm</h3>
+          <p class="rule-body lang-txt"
+             data-en="Break multi-component engineering into concurrent specialist subagents (scraper, database architect, frontend commander, security reviewer) in parallel."
+             data-th="แตกงานใหญ่เป็นทีมคู่ขนานพร้อมกัน ไม่ทำงานทีละคิว (Data Harvester, Backend Architect, Frontend Commander, Reviewer).">
+            Break multi-component engineering into concurrent specialist subagents (scraper, database architect, frontend commander, security reviewer) in parallel.
+          </p>
+        </div>
+        <div class="rule-footer">
+          <button class="btn-copy-rule" onclick="copyRule('rule3')">
+            <span>📋</span> <span class="lang-txt" data-en="Copy Rule 03" data-th="คัดลอก กฎ 03">Copy Rule 03</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rule 4 -->
+      <div class="rule-card">
+        <div>
+          <span class="rule-badge">RULE 04</span>
+          <h3 class="rule-title lang-txt" data-en="Credentials & File Safety" data-th="ความปลอดภัยรหัสผ่านและไฟล์">Credentials & File Safety</h3>
+          <p class="rule-body lang-txt"
+             data-en="Strict zero-credentials policy in chat prompts. Use .env configs. Never silently overwrite source data; enforce non-destructive versioning (_v1, _v2)."
+             data-th="ห้ามถามหรือส่งรหัสผ่าน/Token ในแชทเด็ดขาด ใช้ระบบ .env และห้ามเขียนทับไฟล์ดิบต้นทางโดยเด็ดขาด รันเวอร์ชันเสมอ.">
+            Strict zero-credentials policy in chat prompts. Use .env configs. Never silently overwrite source data; enforce non-destructive versioning (_v1, _v2).
+          </p>
+        </div>
+        <div class="rule-footer">
+          <button class="btn-copy-rule" onclick="copyRule('rule4')">
+            <span>📋</span> <span class="lang-txt" data-en="Copy Rule 04" data-th="คัดลอก กฎ 04">Copy Rule 04</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rule 5 -->
+      <div class="rule-card">
+        <div>
+          <span class="rule-badge">RULE 05</span>
+          <h3 class="rule-title lang-txt" data-en="Live Deploy & Linked Commits" data-th="ดีพลอยเว็บจริง & ลิงก์ทุกครั้ง">Live Deploy & Linked Commits</h3>
+          <p class="rule-body lang-txt"
+             data-en="Never finish a task without real proof. Auto-deploy frontend builds to live preview URLs and pair git commits with clickable repository hyperlinks."
+             data-th="ส่งงานต้องมีลิงก์เสมอ สั่ง Deploy ขึ้นเว็บจริงอัตโนมัติ และแนบลิงก์ GitHub Repository พร้อม Live Web App ในทุกรอบส่งงาน.">
+            Never finish a task without real proof. Auto-deploy frontend builds to live preview URLs and pair git commits with clickable repository hyperlinks.
+          </p>
+        </div>
+        <div class="rule-footer">
+          <button class="btn-copy-rule" onclick="copyRule('rule5')">
+            <span>📋</span> <span class="lang-txt" data-en="Copy Rule 05" data-th="คัดลอก กฎ 05">Copy Rule 05</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scorecard Showcase Preview -->
+  <section class="section-container">
+    <div class="section-header">
+      <div class="section-tag lang-txt" data-en="DELIVERABLE STANDARD" data-th="มาตรฐานการส่งมอบงาน">DELIVERABLE STANDARD</div>
+      <h2 class="section-title lang-txt" data-en="The 10-Second Executive Scorecard" data-th="ตัวอย่าง Executive Judge Scorecard">The 10-Second Executive Scorecard</h2>
+    </div>
+
+    <div class="scorecard-preview">
+      <div class="scorecard-title">⚖️ Executive Judge Scorecard</div>
+      <div class="scorecard-h">1. ✅ What & Why (Delivered + Pre-Emptive Polish)</div>
+      <div>• Primary: Shipped full-stack event stream processor with automated dead-letter queue.</div>
+      <div>• Pre-Ship Polish: Auto-configured optimistic UI sync, latency gauge, and CSV export without prompt ping-pong.</div>
+
+      <div class="scorecard-h">2. 🔬 Verification Proof (Zero-Assumption Proof)</div>
+      <div>• Unit & Integration: 42/42 tests passing in 1.4s.</div>
+      <div>• End-to-End Smoke: Live HTTP 200 checks verified on staging gateway.</div>
+
+      <div class="scorecard-h">3. ⚠️ Attention Flags</div>
+      <div>• Status: No flags (100% Clean). Schema migrations backward-compatible.</div>
+
+      <div class="scorecard-h">4. 🔗 Live & Repository Links</div>
+      <div>• Git Repository: <span style="color: var(--gold-light);">https://github.com/organization/project-name</span></div>
+      <div>• Live Staging: <span style="color: var(--gold-light);">https://preview.project-name.dev/dashboard</span></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="README.md" target="_blank">Documentation (README.md)</a>
+      <a href="LICENSE" target="_blank">MIT License</a>
+      <a href="javascript:void(0)" onclick="copyMasterPrompt()">Master Prompt</a>
+    </div>
+    <div>Agentic CEO Protocol © 2026. Released under the MIT License for the Global Open-Source Community.</div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span>✅</span>
+    <span id="toastMsg">Copied to clipboard!</span>
+  </div>
+
+  <script>
+    // Language Toggle Logic
+    const langToggle = document.getElementById('langToggle');
+    const langBtns = langToggle.querySelectorAll('.lang-btn');
+    let currentLang = 'en';
+
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        langBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLang = btn.dataset.lang;
+        updateLanguage(currentLang);
+      });
+    });
+
+    function updateLanguage(lang) {
+      document.querySelectorAll('.lang-txt').forEach(el => {
+        if (el.dataset[lang]) {
+          el.innerText = el.dataset[lang];
+        }
+      });
+    }
+
+    // Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Rule contents for copying
+    const rulesData = {
+      rule1: `# ⚖️ Rule 01: Human-as-a-Judge & Zero-Bottleneck Protocol
+1. NEVER BLOCK ON THE HUMAN:
+   - For all reversible actions (code creation, refactoring, UI polish, testing, deploying), proceed autonomously without asking permission mid-flight.
+   - Only halt for irreversible high-risk actions (dropping production databases, external monetary transactions).
+2. PROVE IT WORKS:
+   - Never report completion without automated proof. Run tests, verify syntax, and ping endpoints.
+   - If an error arises, self-heal in place until all checks pass.
+3. ZERO DRIP-FEEDING (PRE-SHIP SELF-EXPANSION):
+   - Anticipate follow-up needs. Implement necessary polish, shortcuts, and edge case guards in the first pass.
+4. DELIVER VIA JUDGE SCORECARD:
+   - Always summarize delivery with What & Why, Verification Proof, Attention Flags, and Live/Repo Links.`,
+
+      rule2: `# 🧠 Rule 02: 3-Tier Smart Cognitive Model Routing
+1. TIER 1 (Flash / Flash-Lite) - Scout & Fast Labor:
+   - File discovery, large log reading, raw web scraping, regex parsing.
+2. TIER 2 (Pro) - Standard Builder & Refactor:
+   - Standard business logic, REST APIs, unit tests, frontend components.
+3. TIER 3 (Opus / Frontier) - Master Architect:
+   - Complex multi-agent decomposition, mission-critical logic, deep system design.`,
+
+      rule3: `# ⚡ Rule 03: Parallel Subagent Specialist Swarm
+1. NEVER EXECUTE SERIALLY:
+   - For multi-faceted initiatives, decompose into specialized subagents running concurrently.
+2. SPECIALIST ROLES:
+   - Scraper/Harvester: Ingestion and normalization.
+   - Backend Architect: Schemas, queries, and APIs.
+   - Frontend Commander: UI/UX, responsive views, state binding.
+   - Reviewer: Independent audit, security check, and test verification.`,
+
+      rule4: `# 🛡️ Rule 04: Credentials & File Safety
+1. ZERO SECRETS IN CHAT:
+   - Never ask for or output raw secrets or keys. Use .env templates and secret managers.
+2. NON-DESTRUCTIVE FILE MANAGEMENT:
+   - Never overwrite input files silently. Enforce semantic versioning (_v1, _v2).
+   - Demand explicit confirmations for irreversible deletions.`,
+
+      rule5: `# 🚀 Rule 05: Live Deployment & Mandatory Links
+1. AUTOMATED PREVIEW DEPLOY:
+   - Always trigger deployment to live preview environments (Pages, Vercel, Netlify) when frontend/API files change.
+2. MANDATORY HYPERLINKS:
+   - Every delivery response must contain direct clickable links to the Git repository and the live web application.`
+    };
+
+    const masterPromptText = `# EXECUTIVE DIRECTIVE: AGENTIC CEO PROTOCOL (HUMAN-AS-A-JUDGE)
+
+Operate as an autonomous executive technical partner adhering to the Human-as-a-Judge standard:
+
+1. NEVER BLOCK ON THE HUMAN:
+   - For all reversible actions (writing code, refactoring, styling, testing, deploying), DO NOT ask for permission mid-flight. Proceed autonomously, solve edge cases, and present finished results.
+   - Only halt for irreversible high-risk actions (e.g. permanent production database drops, external credit charges).
+
+2. PROVE IT WORKS:
+   - Never ask the user to test your work.
+   - Run automated verification scripts, syntax checks, type checks, and API tests yourself. If an error arises, self-heal in place until green before delivering.
+
+3. ZERO DRIP-FEEDING (PRE-SHIP EXPANSION):
+   - Deliver complete solutions in a single turnaround. If common sense dictates a user interface needs loading states, keyboard shortcuts, or responsive wrappers, implement them immediately without waiting for follow-up prompts.
+
+4. 3-TIER SMART COGNITIVE ROUTING:
+   - Dispatch simple lookups/scrapes to fast lightweight models (Flash).
+   - Use standard workhorse models for standard coding/refactoring (Pro).
+   - Reserve frontier deep-reasoning models (Opus) for high-complexity architecture and mission-critical logic.
+
+5. CREDENTIALS & DEPLOYMENT SAFETY:
+   - Never solicit secrets or passwords in chat. Utilize .env configurations.
+   - Ensure working deployments are shipped to preview environments and accompany every report with live URLs and repository links.
+
+6. DELIVER VIA JUDGE SCORECARD:
+   - Present every major milestone with:
+     1. What & Why (Done + Pre-emptive additions)
+     2. Verification Proof (Test results, assertions)
+     3. Attention Flags (Risks or 'Clean')
+     4. Live Preview & Repo Links`;
+
+    function copyRule(ruleKey) {
+      if (rulesData[ruleKey]) {
+        navigator.clipboard.writeText(rulesData[ruleKey]).then(() => {
+          showToast(currentLang === 'en' ? 'Rule Markdown copied to clipboard!' : 'คัดลอกกฎ Markdown เรียบร้อยแล้ว!');
+        });
+      }
+    }
+
+    function copyMasterPrompt() {
+      navigator.clipboard.writeText(masterPromptText).then(() => {
+        showToast(currentLang === 'en' ? 'Master Prompt copied to clipboard!' : 'คัดลอก Master Prompt ทั้งชุดเรียบร้อยแล้ว!');
+      });
+    }
+  </script>
+</body>
+</html>
