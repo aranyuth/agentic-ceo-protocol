@@ -1,11 +1,11 @@
 ---
 name: parallel-subagent-swarm
-description: "Parallel Subagent Swarm Delegation Rule for Multi-Component Engineering"
+description: "Parallel Subagent Swarm Delegation Rule for Multi-Component Engineering (v2.0)"
 trigger: always_on
 ---
 
 # ⚡ Parallel Subagent Swarm Delegation Rule
-# ⚡ กฎเหล็กสากล: การกระจายงานให้ Subagents ทำงานคู่ขนาน (Parallel Subagent Delegation)
+# ⚡ กฎเหล็กสากล: การกระจายงานให้ Subagents ทำงานคู่ขนาน (Parallel Subagent Delegation v2.0)
 
 ## 📌 Mandatory Policy / ข้อบังคับเด็ดขาด
 When addressing complex, large-scale, or multi-component requirements:
@@ -37,6 +37,13 @@ When addressing complex, large-scale, or multi-component requirements:
 
 ---
 
+## 📋 Playbook Checklist Anchoring (การล็อคขั้นตอนด้วย TODO Checklist)
+- **English:** When decomposing non-trivial multi-step initiatives across the swarm, each subagent must establish an explicit TODO checklist (`[ ]`, `[/]`, `[x]`) in its memory context mirroring standard Playbook SOPs. Subagents must never skip steps silently. Any skipped item must be annotated with `skip:` or `n/a:` accompanied by an explicit constraint reason (`# why: prevents context drift and silently dropped edge cases during long runs`).
+- **ภาษาไทย:** **การล็อคขั้นตอนด้วย Playbook Checklist:** เมื่องานมีขั้นตอนซับซ้อน Subagent แต่ละตัวต้องแปลงขั้นตอนมาตรฐานเป็น TODO Checklist (`[ ]`, `[/]`, `[x]`) ประจำบริบทเสมอ ห้ามแอบข้ามขั้นตอนย่อยโดยไม่ระบุเหตุผลเด็ดขาด หากจำเป็นต้องข้ามต้องใส่ `skip:` หรือ `n/a:` พร้อมเหตุผลกำกับทุกครั้ง เพื่อป้องกันปัญหาหลงลืมขั้นตอนเมื่อบริบทเริ่มยาว
+
+---
+
 ## 🔄 Coordination & Synthesis Protocol
 - **Parent Agent Role:** Acts as General Contractor / Synthesizer. Allocates decoupled prompts, manages progress, resolves boundary integration contracts, and compiles the unified delivery scorecard.
 - **Zero-Block Delivery:** Subagents must not wait on human confirmation for internal tasks; they verify their own artifacts deterministically and present verified results to the coordinator.
+- **Single-Level Fork Invariant (`Gotcha #8`):** Direct subagents (`Fork Children`) must default to `enable_subagent_tools: false` and **NEVER recursively spawn grandchildren subagents** (`# why: prevents exponential 4x–9x token amplification and context fragmentation`).

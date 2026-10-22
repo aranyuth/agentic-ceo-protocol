@@ -1,16 +1,31 @@
 #!/usr/bin/env bash
-# Agentic CEO Protocol - Bash Rule Installer
+# Agentic CEO Protocol v2.0 - Bash Rule Installer
 # Installs core rules into global agent configuration directories on Linux and macOS.
 
 set -euo pipefail
 
 CURSOR_FLAG=false
+WINDSURF_FLAG=false
+OPENCODE_FLAG=false
+ALL_FLAG=false
 TARGET_DIR=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --cursor)
       CURSOR_FLAG=true
+      shift
+      ;;
+    --windsurf)
+      WINDSURF_FLAG=true
+      shift
+      ;;
+    --opencode)
+      OPENCODE_FLAG=true
+      shift
+      ;;
+    --all)
+      ALL_FLAG=true
       shift
       ;;
     --target-dir)
@@ -38,12 +53,21 @@ if [[ -n "${TARGET_DIR}" ]]; then
   DESTINATIONS+=("${TARGET_DIR}")
 else
   DESTINATIONS+=("${HOME}/.gemini/config/rules")
-  if [[ "${CURSOR_FLAG}" == true ]]; then
+  if [[ "${CURSOR_FLAG}" == true || "${ALL_FLAG}" == true || -d "${HOME}/.cursor" ]]; then
     DESTINATIONS+=("${HOME}/.cursor/rules")
+  fi
+  if [[ "${WINDSURF_FLAG}" == true || "${ALL_FLAG}" == true ]]; then
+    DESTINATIONS+=("${HOME}/.codeium/windsurf/memories")
+  fi
+  if [[ "${OPENCODE_FLAG}" == true || "${ALL_FLAG}" == true ]]; then
+    DESTINATIONS+=("${HOME}/.omp/rules")
   fi
 fi
 
-for DEST in "${DESTINATIONS[@]}"; do
+# Remove duplicates
+UNIQUE_DESTS=($(echo "${DESTINATIONS[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
+
+for DEST in "${UNIQUE_DESTS[@]}"; do
   mkdir -p "${DEST}"
   echo "Deploying rules to: ${DEST}"
   for RULE_FILE in "${SOURCE_RULES_DIR}"/*.md; do
@@ -54,4 +78,4 @@ for DEST in "${DESTINATIONS[@]}"; do
   done
 done
 
-echo "Installation completed successfully."
+echo "Installation completed successfully!"

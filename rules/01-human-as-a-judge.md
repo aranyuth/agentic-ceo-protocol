@@ -1,11 +1,11 @@
 ---
 name: human-as-a-judge
-description: "Universal Human-as-a-Judge and Zero-Bottleneck Protocol for Autonomous AI Engineering"
+description: "Universal Human-as-a-Judge and Zero-Bottleneck Protocol for Autonomous AI Engineering (v2.0)"
 trigger: always_on
 ---
 
 # ⚖️ Universal Human-as-a-Judge & Zero-Bottleneck Protocol
-# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol
+# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.0)
 
 ## 📌 Core Philosophy / ปรัชญาหลัก
 > **"Not Human-in-the-Loop, but Human-as-a-Judge"**
@@ -24,10 +24,18 @@ trigger: always_on
 
 ---
 
-## 2. 🧪 Prove It Works (Deterministic Verification)
-### พิสูจน์ด้วยผลทดสอบจริงก่อนส่งงาน
+## 2. 🧪 Prove It Works & Repro-First Invariant
+### พิสูจน์ด้วยผลทดสอบจริงและกฎ Repro ก่อนแตะโค้ด
 - **English:** Never report "done" based purely on intuition or unexecuted code. Before claiming completion, the AI must run deterministic automated checks (syntax linters, unit tests, integration tests, API verification scripts, database query checks, or live preview builds). If an error is encountered, self-heal and iterate silently until all verification gates are green (100% pass).
 - **ภาษาไทย:** **ห้ามรายงานว่างานเสร็จแล้วโดยดูแค่โค้ดหรือสันนิษฐานเอาเอง** ทุกครั้ง AI ต้องรัน Verification Script หรือ Automated Checks ตรวจสอบกับระบบจริง (เช็ค Syntax, รันเทสต์, ยิง API หรือตรวจสถานะหน้าเว็บ) หากพบข้อผิดพลาด ต้องวนซ่อมเองเงียบๆ จนกว่าผลทดสอบจะผ่าน 100% (All Green) ก่อนส่งมอบ
+
+### 🛑 Repro-First & Stop-the-Line Guardrail (หลักการ Repro ก่อนแก้บั๊ก)
+- **English:** For bug fixes and regressions, the AI must deterministically reproduce the bug in the running environment (via test runner, curl API, or BrowserOS Neo LBM CDP navigation) *before* modifying source code. If the failure cannot be reproduced, **STOP THE LINE immediately** and report the roadblock to the Judge. Never guess or blindly modify unrelated code files (`# why: prevents speculative churn and destructive regressions`).
+- **ภาษาไทย:** **ต้อง Repro บั๊กให้เห็นจริงก่อนแตะโค้ดเสมอ:** สำหรับงานแก้บั๊ก AI ต้องเขียนเทสต์หรือสั่งรันให้เห็นอาการเสียซ้ำ (Reproduce) บนสภาพแวดล้อมจริงก่อนแตะ Source Code แม้แต่บรรทัดเดียว หากไม่สามารถจำลองบั๊กได้ ให้ **"Stop the Line"** หยุดงานทันทีและรายงานให้ Judge ทราบ ห้ามเดาสุ่มแก้ไฟล์ไปเรื่อยๆ เพราะจะทำให้ระบบเดิมพัง (Regression)
+
+### 👁️ Zero-Boilerplate Sensory Verification (ด่านตรวจผ่าน BrowserOS Neo LBM)
+- **English:** For web applications, API endpoints, and dashboards, verification must utilize **BrowserOS Neo LBM (Rule 07)** to inspect live CDP Network JSON payloads (`browser_get_captured_network_json`) and capture live visual snapshots. Never rely solely on unit tests when user-facing interfaces are modified.
+- **ภาษาไทย:** **ตรวจงานจริงผ่าน BrowserOS Neo LBM:** สำหรับเว็บแอปพลิเคชันและแดชบอร์ด ต้องใช้ BrowserOS Neo LBM เข้าไปตรวจ Network JSON Payload และถ่ายภาพหน้าจอเป็นหลักฐานยืนยันเสมอ ห้ามเชื่อเพียงแค่ผลผ่านของ Unit Test หรือ Linter
 
 ---
 
@@ -56,18 +64,19 @@ trigger: always_on
 ---
 
 ## 6. 📋 Judge Scorecard Delivery Format
-### ส่งมอบงานด้วยรายงานสรุปสำหรับผู้พิพากษา (Judge Scorecard)
-Every delivery must conclude with a structured, concise **Judge Scorecard** allowing the Judge to assess and decide within seconds:
+### ส่งมอบงานด้วยรายงานสรุปสำหรับผู้พิพากษา (Judge Scorecard 2.0)
+Every delivery must conclude with a structured, concise **Judge Scorecard 2.0** allowing the Judge to assess and decide within seconds:
 
 ```markdown
-### 📋 Judge Scorecard
+### 📋 Judge Scorecard 2.0
 
 1. **✅ What & Why (สิ่งที่ทำตามสั่ง + สิ่งที่คิดเผื่อให้ครบวงจร):**
-   - Summary of explicit implementations and high-ROI bundled enhancements.
-2. **🔬 Verification Proof (หลักฐานการทดสอบ):**
-   - Automated script results, test counts, exit codes, and live verification evidence.
-3. **⚠️ Attention Flags (จุดสังเกต):**
+   - Summary of explicit implementations and high-ROI bundled enhancements (Pre-Ship Self-Expansion).
+2. **🔬 Verification Proof & Sensory Evidence (หลักฐานการทดสอบและผลตรวจจริง):**
+   - Automated test suite results, exit codes, and linter checks.
+   - BrowserOS Neo LBM verification: Live CDP Network response codes, payload integrity, and UI snapshot links.
+3. **⚠️ Attention Flags & Invariants (จุดสังเกต):**
    - Critical observations, constraints, or `No flags (100% clean)`.
 4. **🔗 Live & Repo Links (ลิงก์ระบบและซอร์สโค้ด):**
-   - Direct repository link and live deployment preview URL (if applicable).
+   - Direct repository link, commit hash, and live deployment preview URL (Edge/Cloudflare/Vercel).
 ```

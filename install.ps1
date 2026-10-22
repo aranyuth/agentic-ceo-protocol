@@ -1,9 +1,12 @@
-# Agentic CEO Protocol - PowerShell Rule Installer
+# Agentic CEO Protocol v2.0 - PowerShell Rule Installer
 # Installs core rules into global agent configuration directories.
 
 [CmdletBinding()]
 param(
     [switch]$Cursor,
+    [switch]$Windsurf,
+    [switch]$OpenCode,
+    [switch]$All,
     [string]$TargetDir = ""
 )
 
@@ -32,13 +35,23 @@ if ($TargetDir -ne "") {
     $geminiRulesDir = Join-Path $env:USERPROFILE ".gemini\config\rules"
     $destinations += $geminiRulesDir
 
-    if ($Cursor) {
-        $cursorRulesDir = Join-Path $env:USERPROFILE ".cursor\rules"
+    $cursorRulesDir = Join-Path $env:USERPROFILE ".cursor\rules"
+    if ($Cursor -or $All -or (Test-Path (Join-Path $env:USERPROFILE ".cursor"))) {
         $destinations += $cursorRulesDir
+    }
+
+    if ($Windsurf -or $All) {
+        $windsurfRulesDir = Join-Path $env:USERPROFILE ".codeium\windsurf\memories"
+        $destinations += $windsurfRulesDir
+    }
+
+    if ($OpenCode -or $All) {
+        $ompRulesDir = Join-Path $env:USERPROFILE ".omp\rules"
+        $destinations += $ompRulesDir
     }
 }
 
-foreach ($dest in $destinations) {
+foreach ($dest in ($destinations | Select-Object -Unique)) {
     if (-not (Test-Path $dest)) {
         Write-Host "Creating directory: $dest"
         New-Item -ItemType Directory -Path $dest -Force | Out-Null
@@ -52,4 +65,4 @@ foreach ($dest in $destinations) {
     }
 }
 
-Write-Host "`nInstallation completed successfully."
+Write-Host "`nInstallation completed successfully! Deployed $($ruleFiles.Count) rules."
