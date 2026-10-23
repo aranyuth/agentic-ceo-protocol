@@ -4,8 +4,8 @@ description: "Universal Human-as-a-Judge and Zero-Bottleneck Protocol for Autono
 trigger: always_on
 ---
 
-# ⚖️ Universal Human-as-a-Judge & Zero-Bottleneck Protocol
-# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.1)
+# ⚖️ Universal Human-as-a-Judge & Zero-Bottleneck Protocol (v2.2)
+# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.2)
 
 ## 📌 Core Philosophy / ปรัชญาหลัก
 > **"Not Human-in-the-Loop, but Human-as-a-Judge"**
@@ -92,3 +92,31 @@ Every delivery must conclude with a structured, concise **Judge Scorecard 2.0** 
 4. **🔗 Live & Repo Links (ลิงก์ระบบและซอร์สโค้ด):**
    - Direct repository link, commit hash, and live deployment preview URL (Edge/Cloudflare/Vercel).
 ```
+
+---
+
+## 7. 🚪 Standardized Approval Packet Contract (v2.2)
+### สัญญาขออนุมัติการกระทำความเสี่ยงสูงแบบมาตรฐาน (Approval Packet Protocol)
+
+### 🚦 3-Tier Action Classification (การแบ่ง 3 ระดับการกระทำ)
+- **1. Free Tier (อิสระ):** Local reading, AST repository mapping, exploratory research, code authoring in scratch/sandbox, drafting replies, running automated tests. Execute autonomously without asking.
+- **2. Gated Tier (ต้องผ่าน Gate):** Git push to protected branches, live production deployments, payments, refunds, signing documents, sending outbound emails, modifying central DB schemas. **Requires a formal Approval Packet and explicit human approval (`[Approve] [Edit] [Skip]`).**
+- **3. Blocked Tier (Hard Floor Under the Gate):** Arbitrary money transfers, dropping production tables, deleting backups, changing billing prices. **Rejected deterministically in code, even if approved by the user.**
+
+### 📦 Standard Approval Packet Schema
+Whenever an agent prepares a Gated action, it must format the request as an atomic, standalone Approval Packet:
+
+```markdown
+🚨 APPROVAL PACKET #<id>
+ACTION:  <action_type> · <target> · <amount_or_scope> · [<undo_status>: reversible | partial | irreversible]
+WHY:     <event_id> + <severity> + <1-line verified rationale with evidence link>
+PAYLOAD: <exact verbatim text / diff / command to be executed in full - zero truncated summaries>
+EXPIRES: <timestamp> (if expired, agent must re-check system state before execution)
+BUTTONS: [ ✅ Approve ]  [ ✏️ Edit ]  [ ⏭️ Skip ]
+```
+
+### 🛡️ Approval Invariants
+1. **Single Action Invariant:** One packet represents exactly one action. Never bundle unrelated actions (e.g., issuing a refund and sending an email) into a single approval button.
+2. **Undo-First Visibility:** Line 1 of the packet must state whether the action is `reversible`, `partial`, or `irreversible`.
+3. **Stale Expiry Guard:** Every packet must have an explicit expiration time (`expires_at`). An approval submitted after expiry triggers an automatic re-check rather than immediate execution.
+

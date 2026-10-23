@@ -113,3 +113,31 @@ trigger: always_on
   3. **Zero Dangling State:** Never leave broken, half-written syntax in workspace files upon concluding a session.
 - **ภาษาไทย:**
   **การหยุดและรับช่วงต่องานปลอดภัย (Clean Worktree & Session Pickup):** ก่อนจบเซสชัน ต้องตรวจสอบว่าไม่มีไฟล์โค้ดค้างคาแบบครึ่งๆ กลางๆ ทำการ Commit หรือบันทึก Git SHA และรายการไฟล์ที่ยังทำค้างไว้ลงใน `memory_handoff` เสมอ เพื่อให้เซสชันถัดไปเปิดมารับงานต่อได้ 100% ไร้รอยต่อ
+
+---
+
+## 9. 🔄 Dual-Loop Decoupling & Laptop-Native Incremental Catch-Up (v2.2)
+### การแยก Attention Loop ออกจาก Work Loop และการ Catch-up ข้ามคืนบนโน้ตบุ๊ก
+- **Attention Loop vs. Work Loop:**
+  - **Attention Loop (Watch ➔ Judge ➔ Speak):** Scheduled or on-lid-open triage. Evaluates raw external events against statistical baseline (Z-score in code $0 compute) and runs batched LLM triage. Decides what reaches human attention.
+  - **Work Loop (Prepare ➔ Gate ➔ Learn):** Triggered only on high-severity events or user assignment. Executes unattended in isolated branch/scratch workspaces, adheres to turn and time budgets, halts at the Gate, and presents an Approval Packet.
+- **Laptop-Native Incremental Cursor Catch-Up:**
+  - When the physical machine is shut down overnight, cursors (`last_seen_timestamp` / `event_id`) are persisted in `memory-hub` (`memory_save` / `memory_timeline`).
+  - Upon powering on or opening the notebook lid in the morning, the agent executes an incremental catch-up across connected sources in 15–30 seconds.
+- **"Checked and Quiet" Trust Invariant:**
+  - Silence must be proven to be an intentional decision, not a system hang. Every Morning Brief and status briefing must conclude with:
+    `Checked and quiet: [Source A, Source B, Source C - 0 errors] · Noise dropped: N`
+
+---
+
+## 10. 🧠 Bounded Learning Flywheel & Decision Observability (v2.2)
+### วงจรการเรียนรู้แบบจำกัดกรอบและระบบตรวจสอบเหตุผลการตัดสินใจ
+- **Bounded Multipliers (การปรับจูนแบบมีกรอบ):**
+  - **Skip Feedback:** When user skips an alert, increment threshold: `threshold = min(threshold * 1.15, CAP)` (requires repeated skips to silence a category).
+  - **Approve Feedback:** When user approves, adjust sensitivity: `threshold = max(threshold * 0.95, FLOOR)`.
+  - **Edit Feedback:** When user edits an outbound packet, record the exact git/text diff in `memory-hub` to steer future phrasing to the user's authentic style.
+- **P0 Floor Invariant (กฎความปลอดภัยขั้นต่ำ):**
+  - P0 critical rules, security alerts, and system-down checks can NEVER be learned away or suppressed by user skips.
+- **"Why Didn't You Tell Me?" Observability:**
+  - Every triage decision is logged via `memory_record_decision`. When asked why an event was withheld, answer strictly from durable logs (showing timestamp, baseline z-score, rubric tier, and route reason), converting user inquiries into approved threshold updates.
+
