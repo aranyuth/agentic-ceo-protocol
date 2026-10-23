@@ -1,10 +1,10 @@
-# ⚖️ Agentic CEO Protocol v2.0 — Human-as-a-Judge, Sensory Harness & Autonomous Swarm Ruleset
+# ⚖️ Agentic CEO Protocol v2.1 — Human-as-a-Judge, Sensory Harness & Autonomous Swarm Ruleset
 
 > **Transform your AI Coding Agents from needy junior interns into an autonomous executive engineering swarm.**  
-> *เปลี่ยน AI Coding Assistant จากพนักงานฝึกงานที่คอยถามทุกฝากก้าว ให้เป็นทีมงานระดับผู้บริหาร ทำงานจบครบวงจร ตัดสินใจคม ตรวจงานจริงผ่าน Sensory Harness และรายงานผลผ่าน Executive Judge Scorecard 2.0*
+> *เปลี่ยน AI Coding Assistant จากพนักงานฝึกงานที่คอยถามทุกฝากก้าว ให้เป็นทีมงานระดับผู้บริหาร ทำงานจบครบวงจร ตัดสินใจคม ตรวจงานจริงผ่าน Sensory Harness ล็อคบั๊กด้วย Hierarchy of Enforcement และรายงานผลผ่าน Executive Judge Scorecard 2.0*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](LICENSE)
-[![Protocol Version](https://img.shields.io/badge/Protocol-v2.0.0-gold.svg)](#)
+[![Protocol Version](https://img.shields.io/badge/Protocol-v2.1.0-gold.svg)](#)
 [![Works With](https://img.shields.io/badge/Compatible-Antigravity%20|%20Cursor%20|%20Claude%20Code%20|%20Windsurf%20|%20OpenCode-blue.svg)](#installation)
 
 ---
@@ -17,19 +17,21 @@ Inspired by **Lauren Tan** (`poteto` / `pstack`), the Agentic CEO Protocol solve
 [❌ Legacy: Human-in-the-Loop]
 AI stops -> Asks "Should I write file X?" -> Human responds -> AI stops -> Asks "What color button?" -> Human fatigued.
 
-[⚡ Agentic CEO v2.0: Human-as-a-Judge & Sensory Harness]
-Human sets objective -> AI Swarm plans & parallel executes -> Repro-First verification -> BrowserOS Neo LBM live audit -> Self-heals bugs -> Deploys to live preview -> Delivers completed artifact with 10-Second Executive Scorecard.
+[⚡ Agentic CEO v2.1: Human-as-a-Judge & Enterprise Engineering Invariants]
+Human sets objective -> AI Swarm plans & parallel executes -> Blast Radius Preflight -> Repro-First verification -> BrowserOS Neo LBM live audit -> Hierarchy of Enforcement lock -> Deploys to live preview -> Delivers completed artifact with 10-Second Executive Scorecard.
 ```
 
-| Dimension / มิติ | ❌ Legacy: Human-in-the-Loop | ⚡ Agentic CEO Protocol v2.0 |
+| Dimension / มิติ | ❌ Legacy: Human-in-the-Loop | ⚡ Agentic CEO Protocol v2.1 |
 | :--- | :--- | :--- |
 | **Human Role** | Task monitor, bug spotter, step-by-step approver | **Executive Judge (ผู้พิพากษา)** deciding on final evidence |
 | **Workflow Cadence** | High friction, constant ping-pong interrupts | **Zero-bottleneck autonomous batch execution** |
 | **Bug Fixing Discipline** | Guess-and-modify code blindly | **Repro-First & Stop-the-Line:** Must reproduce before editing |
+| **Architectural Safety** | Uncontrolled edits to shared modules | **Conditional Blast Radius Preflight:** Map callers before touching core files |
 | **Testing Burden** | "Please check localhost:3000 to see if it works" | **Automated Sensory Verification** via BrowserOS Neo LBM CDP |
-| **Scope Execution** | Drip-feeding minimal code, waiting for follow-ups | **Complete-by-default:** Self-expansion anticipating next steps |
+| **Scope Execution** | Drip-feeding minimal code, waiting for follow-ups | **Sharpened Pre-Ship Expansion:** Deep engineering resilience (Error boundaries, retries) |
 | **Workflow Anchoring** | Ad-hoc instructions prone to context drift | **Playbook Checklist Anchors:** Literal `[ ]`, `[/]`, `[x]` tracking |
-| **Memory Across Runs** | Stateless amnesia starting from scratch | **Zero-Amnesia Protocol:** Cross-session memory & handoffs |
+| **Recurring Bug Prevention** | Text reminders in memory (easily ignored) | **Hierarchy of Enforcement:** Lock with Types & Lints before prompts |
+| **Memory Across Runs** | Stateless amnesia starting from scratch | **Zero-Amnesia Protocol:** Cross-session memory & clean worktree handoffs |
 | **Model Cost** | Expensive top-tier models used for mundane file scans | **3-Tier Smart Routing:** Flash (Scout) ➔ Pro (Workhorse) ➔ Frontier (Architect) |
 
 ---
@@ -42,12 +44,14 @@ flowchart TD
 
     subgraph D1 ["1️⃣ Governance & Mindset Layer"]
         Lead -->|"Enforce Zero-Bottleneck & Repro-First"| Gov["Rule 01: Human-as-a-Judge & Stop-the-Line"]
+        Gov -->|"Check Shared Callers"| Blast["💥 Blast Radius Preflight"]
     end
 
     subgraph D3 ["3️⃣ Cognitive & Swarm Discipline"]
         Gov -->|"Tier 1: High-Speed Scraping & AST Map"| Flash["⚡ Flash Agent (Scout / Harvester)"]
         Gov -->|"Tier 2: Feature Engineering & Playbook TODO"| Pro["🛠️ Pro Agent (Builder / Refactor)"]
         Gov -->|"Tier 3: Distributed Architecture & Memory"| Frontier["👑 Frontier Agent (System Architect)"]
+        Pro -->|"Transient Probes with 100% Cleanup"| Forensics["🔬 Forensic Profiling"]
     end
 
     subgraph D2 ["2️⃣ Sensory & Execution Layer"]
@@ -59,6 +63,7 @@ flowchart TD
     subgraph D4 ["4️⃣ Delivery, Deployment & Evidence"]
         CDP & Vision -->|"All Gates Green"| Deploy["🚀 Live Edge Deployment (Cloudflare / Vercel)"]
         Deploy --> Scorecard["📋 Executive Judge Scorecard 2.0"]
+        Scorecard -->|"Lock Invariants (Type > Lint > Prompt)"| Memory["🧠 Memory Hub & Hierarchy of Enforcement"]
         Scorecard -->|"Presents Evidence & Live URLs (10s Review)"| User
     end
 ```
@@ -69,11 +74,12 @@ flowchart TD
 
 The protocol consists of 8 modular rule files designed to be dropped directly into modern AI agent environments:
 
-### 1. `01-human-as-a-judge.md` — The Zero-Bottleneck & Repro-First Protocol
+### 1. `01-human-as-a-judge.md` — The Zero-Bottleneck, Repro-First & Blast-Radius Protocol
 - **Never Block on the Human:** Proceed autonomously on all reversible actions (code creation, refactoring, UI polish, testing). Never stop mid-workflow to ask trivial questions.
 - **Repro-First & Stop-the-Line:** For bug fixes, AI must deterministically reproduce the bug in the running environment *before* modifying code. If reproduction fails, halt immediately and report to the Judge.
+- **Conditional Blast Radius Preflight:** Map all direct callers and downstream dependents before modifying shared utilities, schemas, or central types.
+- **Sharpened Pre-Ship Expansion:** Prioritize engineering depth and system resilience (Error Boundaries, retry policies, edge cases) over superficial UI feature bloat.
 - **Sensory Verification:** Verify web apps through live BrowserOS Neo LBM CDP and visual inspection.
-- **Pre-Ship Self-Expansion Loop:** Anticipate the human's immediate next questions. Bundle high-ROI secondary improvements into the initial release.
 - **Deliver via Judge Scorecard 2.0:** End every session with a clear, 10-second readable scorecard containing *What & Why*, *Verification Proof*, *Attention Flags*, and *Live Links*.
 
 ### 2. `02-smart-model-routing.md` — 3-Tier Cognitive Allocation
@@ -86,6 +92,7 @@ Optimize speed, intelligence, and token economics by matching task complexity to
 - Never execute multi-faceted tasks in a single serial queue.
 - Decompose complex initiatives into isolated workstreams dispatched simultaneously across subagents (`data-harvester`, `backend-architect`, `frontend-commander`, `independent-reviewer`).
 - **Playbook Checklist Anchors:** Subagents establish literal `[ ]`, `[/]`, `[x]` checklists based on standard SOPs, preventing context drift and silently dropped edge cases.
+- **Transient Probe Cleanup Invariant:** Transient instrumentation probes for performance/leak diagnosis are permitted during investigation but must be 100% removed and proven clean via git diff before delivery.
 
 ### 4. `04-credentials-and-file-safety.md` — Security & Non-Destructive Operations
 - **Zero Secrets in Chat:** Strictly forbid asking for or outputting raw API keys, passwords, or production connection strings. Enforce `.env.example` templates and native secret managers.
@@ -98,7 +105,8 @@ Optimize speed, intelligence, and token economics by matching task complexity to
 ### 6. `06-cross-session-memory.md` — Cross-Session Memory & Zero-Amnesia Protocol
 - **Turn-1 Auto-Recall:** Inspect active task handoffs (`memory_handoff`) and read project anchors (`PROGRESS.md`, `CONTEXT.md`) before proposing changes.
 - **Google Harness² Memory Taxonomy:** Explicitly separate verified repo facts (`[WORKSPACE_FACT]`) from transferable workflows (`[DOMAIN_PROCEDURE]`).
-- **4-Field Experience Schema:** Persist lessons with `Cue + Lesson + Evidence + Confidence`.
+- **Hierarchy of Enforcement:** When resolving recurring errors, enforce fixes at the highest structural tier: **Architecture ➔ Type System (TypeScript/Zod) ➔ Lint/AST ➔ Tests ➔ Prompt/Docs**.
+- **Clean Worktree Suspension:** Ensure zero dangling/uncommitted syntax upon concluding a session; persist branch, commit SHA, and uncommitted diff manifests in `memory_handoff`.
 
 ### 7. `07-browseros-neo-lbm-priority.md` — Zero-Boilerplate Verification Engine
 - Mandates the use of **BrowserOS Neo LBM Edition** over legacy browser automation.

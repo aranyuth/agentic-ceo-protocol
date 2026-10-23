@@ -1,11 +1,11 @@
 ---
 name: parallel-subagent-swarm
-description: "Parallel Subagent Swarm Delegation Rule for Multi-Component Engineering (v2.0)"
+description: "Parallel Subagent Swarm Delegation Rule for Multi-Component Engineering (v2.1)"
 trigger: always_on
 ---
 
 # ⚡ Parallel Subagent Swarm Delegation Rule
-# ⚡ กฎเหล็กสากล: การกระจายงานให้ Subagents ทำงานคู่ขนาน (Parallel Subagent Delegation v2.0)
+# ⚡ กฎเหล็กสากล: การกระจายงานให้ Subagents ทำงานคู่ขนาน (Parallel Subagent Delegation v2.1)
 
 ## 📌 Mandatory Policy / ข้อบังคับเด็ดขาด
 When addressing complex, large-scale, or multi-component requirements:
@@ -40,6 +40,12 @@ When addressing complex, large-scale, or multi-component requirements:
 ## 📋 Playbook Checklist Anchoring (การล็อคขั้นตอนด้วย TODO Checklist)
 - **English:** When decomposing non-trivial multi-step initiatives across the swarm, each subagent must establish an explicit TODO checklist (`[ ]`, `[/]`, `[x]`) in its memory context mirroring standard Playbook SOPs. Subagents must never skip steps silently. Any skipped item must be annotated with `skip:` or `n/a:` accompanied by an explicit constraint reason (`# why: prevents context drift and silently dropped edge cases during long runs`).
 - **ภาษาไทย:** **การล็อคขั้นตอนด้วย Playbook Checklist:** เมื่องานมีขั้นตอนซับซ้อน Subagent แต่ละตัวต้องแปลงขั้นตอนมาตรฐานเป็น TODO Checklist (`[ ]`, `[/]`, `[x]`) ประจำบริบทเสมอ ห้ามแอบข้ามขั้นตอนย่อยโดยไม่ระบุเหตุผลเด็ดขาด หากจำเป็นต้องข้ามต้องใส่ `skip:` หรือ `n/a:` พร้อมเหตุผลกำกับทุกครั้ง เพื่อป้องกันปัญหาหลงลืมขั้นตอนเมื่อบริบทเริ่มยาว
+
+---
+
+## 🔬 Forensic Diagnostics & Transient Probe Guardrail (การชันสูตรและล้าง Probe)
+- **English:** For performance regressions, memory leaks, and CPU spikes, subagents may inject transient instrumentation probes (timers, heap monitors, event loop trackers). **Strict Cleanup Invariant:** All temporary probes, profiling logs, and diagnostic code must be 100% removed and proven clean via git diff before submitting work for final verification (`# why: prevents debugging clutter and memory leaks from leaking into production`).
+- **ภาษาไทย:** **กฎเหล็กการชันสูตรและล้าง Probe 100%:** สำหรับงานแก้ระบบช้าหรือตรวจ Memory Leak สามารถใส่โค้ด Probe ดักจับค่าชั่วคราวได้ แต่ **ต้องลบออกทั้งหมด 100%** และตรวจยืนยันด้วย Git Diff ก่อนส่งงานเสมอ ห้ามทิ้งโค้ดตรวจวัดชั่วคราวไว้ใน Production
 
 ---
 

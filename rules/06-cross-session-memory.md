@@ -1,11 +1,11 @@
 ---
 name: cross-session-memory
-description: "Universal Cross-Session Memory, Auto-Recall, and Zero-Amnesia Protocol for AntiGravity and Memory Hub"
+description: "Universal Cross-Session Memory, Auto-Recall, and Zero-Amnesia Protocol for AntiGravity and Memory Hub (v2.1)"
 trigger: always_on
 ---
 
 # 🧠 Cross-Session Memory & Zero-Amnesia Protocol
-# 🧠 กฎเหล็กสากล: ระบบความจำข้ามเซสชันและการป้องกันภาวะสมองเสื่อม (Zero-Amnesia Protocol)
+# 🧠 กฎเหล็กสากล: ระบบความจำข้ามเซสชันและการป้องกันภาวะสมองเสื่อม (Zero-Amnesia Protocol v2.1)
 
 ## 📌 Core Philosophy / ปรัชญาหลัก
 > **"Never Start from Scratch in an Existing Project (ห้ามเริ่มจากศูนย์ในโปรเจกต์เดิม)"**
@@ -82,3 +82,34 @@ trigger: always_on
   1. **ดัชนีความจำบรรทัดเดียว (`1-Line Hook`):** เขียนสรุปใน `PROGRESS.md` ให้กระชับบรรทัดละ 1 ประเด็น เพื่อป้องกันระบบตัดท้ายไฟล์เมื่อขนาดเกินเพดาน
   2. **ห้ามเซฟสิ่งที่สแกนหาเองได้ (`Zero Derivable Facts`):** ห้ามบันทึกโครงสร้างโฟลเดอร์หรือรายชื่อฟังก์ชันที่กด `gk_get_repo_map` ดูได้ในเสี้ยววินาทีลงใน Memory Hub ให้เซฟเฉพาะความจริงเชิงลึกที่ดูจากโค้ดตรงๆ ไม่รู้
   3. **ติดป้าย `# why:` กำกับข้อห้ามเสมอ:** ทุกกฎข้อห้ามใน `AGENTS.md` ต้องระบุเหตุผล (`# why:`) หรือเงื่อนไขยกเลิก (`# remove when:`) กำกับไว้เสมอ
+
+---
+
+## 7. 🏛️ Hierarchy of Enforcement (แก้ปัญหาที่ระดับสูงสุดเสมอ)
+### แปลงบทเรียนให้กลายเป็นเกราะป้องกันเชิงโครงสร้าง ไม่ใช่แค่บันทึกเตือนความจำ
+- **English (Adopted from `pstack` / Lauren Tan):**
+  When resolving recurring errors or capturing critical architectural lessons, the agent must enforce the solution at the **highest possible structural tier**:
+  1. **Architecture Tier:** Redesign APIs or state machines to make illegal states unrepresentable.
+  2. **Type System Tier:** Encode invariants into strict TypeScript types, branded types, or runtime schemas (Zod / Pydantic).
+  3. **Lint & Static Gate Tier:** Introduce linter rules or AST pre-commit checks to catch violations automatically.
+  4. **Automated Test Tier:** Add deterministic regression tests asserting expected behavior.
+  5. **Prompt / Docs Tier:** Free-form text instructions in memory are the *last resort*, never the primary fix.
+- **ภาษาไทย:**
+  **ลำดับชั้นการแก้ปัญหาเชิงโครงสร้าง (Type > Lint > Tests > Text):** เมื่อพบข้อผิดพลาดที่เกิดขึ้นซ้ำ ห้ามหยุดแค่การเขียนข้อความเตือนความจำ แต่ต้องแปลงเป็นกลไกป้องกันที่ระดับสูงสุดเสมอ:
+  1. **สถาปัตยกรรม:** ออกแบบโค้ดใหม่ไม่ให้มีทางผิดได้แต่แรก
+  2. **Type System:** กำหนด Type และ Schema (TypeScript / Zod) บังคับให้โครงสร้างผิดพลาดคอมไพล์ไม่ผ่าน
+  3. **Lint & AST Rules:** เขียน Rule ดักจับตอน Build
+  4. **Automated Tests:** เขียน Unit/Regression Test ล็อคไว้
+  5. **บันทึกข้อความ:** ให้เป็นทางเลือกสุดท้ายเมื่อทำ 4 ข้อแรกไม่ได้
+
+---
+
+## 8. ⏸️ Clean Worktree Suspension & Session Pickup
+### การฟรีซสถานะงานอย่างปลอดภัยก่อนสลับเครื่องหรือจบรัน
+- **English:**
+  Prior to ending a session or declaring a pause in multi-step workflows:
+  1. **Clean Worktree Check:** Ensure all code edits are either committed or tracked in a deterministic stash/diff manifest.
+  2. **Handoff Anchor:** Record the active branch, head commit SHA, and exact uncommitted file paths into `memory_handoff(action="save", ...)`.
+  3. **Zero Dangling State:** Never leave broken, half-written syntax in workspace files upon concluding a session.
+- **ภาษาไทย:**
+  **การหยุดและรับช่วงต่องานปลอดภัย (Clean Worktree & Session Pickup):** ก่อนจบเซสชัน ต้องตรวจสอบว่าไม่มีไฟล์โค้ดค้างคาแบบครึ่งๆ กลางๆ ทำการ Commit หรือบันทึก Git SHA และรายการไฟล์ที่ยังทำค้างไว้ลงใน `memory_handoff` เสมอ เพื่อให้เซสชันถัดไปเปิดมารับงานต่อได้ 100% ไร้รอยต่อ

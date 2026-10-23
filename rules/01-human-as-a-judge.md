@@ -1,11 +1,11 @@
 ---
 name: human-as-a-judge
-description: "Universal Human-as-a-Judge and Zero-Bottleneck Protocol for Autonomous AI Engineering (v2.0)"
+description: "Universal Human-as-a-Judge and Zero-Bottleneck Protocol for Autonomous AI Engineering (v2.1)"
 trigger: always_on
 ---
 
 # ⚖️ Universal Human-as-a-Judge & Zero-Bottleneck Protocol
-# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.0)
+# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.1)
 
 ## 📌 Core Philosophy / ปรัชญาหลัก
 > **"Not Human-in-the-Loop, but Human-as-a-Judge"**
@@ -32,6 +32,10 @@ trigger: always_on
 ### 🛑 Repro-First & Stop-the-Line Guardrail (หลักการ Repro ก่อนแก้บั๊ก)
 - **English:** For bug fixes and regressions, the AI must deterministically reproduce the bug in the running environment (via test runner, curl API, or BrowserOS Neo LBM CDP navigation) *before* modifying source code. If the failure cannot be reproduced, **STOP THE LINE immediately** and report the roadblock to the Judge. Never guess or blindly modify unrelated code files (`# why: prevents speculative churn and destructive regressions`).
 - **ภาษาไทย:** **ต้อง Repro บั๊กให้เห็นจริงก่อนแตะโค้ดเสมอ:** สำหรับงานแก้บั๊ก AI ต้องเขียนเทสต์หรือสั่งรันให้เห็นอาการเสียซ้ำ (Reproduce) บนสภาพแวดล้อมจริงก่อนแตะ Source Code แม้แต่บรรทัดเดียว หากไม่สามารถจำลองบั๊กได้ ให้ **"Stop the Line"** หยุดงานทันทีและรายงานให้ Judge ทราบ ห้ามเดาสุ่มแก้ไฟล์ไปเรื่อยๆ เพราะจะทำให้ระบบเดิมพัง (Regression)
+
+### 💥 Conditional Blast Radius Preflight (การประเมินรัศมีแรงกระแทกเชิงโครงสร้าง)
+- **English:** When modifying shared utilities, database schemas, central types, or core API contracts, the agent must execute a preflight Blast Radius analysis before modifying code: map all direct callers and downstream dependents. Prove via AST inspection or compiler check that the change will not introduce cascading breakage across the system (`# why: prevents silent domino regressions in shared modules`).
+- **ภาษาไทย:** **ประเมินรัศมีแรงกระแทก (Blast Radius):** เมื่อต้องแก้ไขฟังก์ชันส่วนกลาง, โครงสร้างฐานข้อมูล (Schema), หรือ Core Types ให้ตรวจสอบรายการไฟล์และฟังก์ชันที่เรียกใช้ (Callers) ล่วงหน้าเสมอ เพื่อจำกัดขอบเขตความเสียหายและพิสูจน์ว่าจะไม่ทำลายส่วนอื่นของระบบ
 
 ### 👁️ Zero-Boilerplate Sensory Verification (ด่านตรวจผ่าน BrowserOS Neo LBM)
 - **English:** For web applications, API endpoints, and dashboards, verification must utilize **BrowserOS Neo LBM (Rule 07)** to inspect live CDP Network JSON payloads (`browser_get_captured_network_json`) and capture live visual snapshots. Never rely solely on unit tests when user-facing interfaces are modified.
@@ -60,6 +64,14 @@ trigger: always_on
   2. If I deliver only this and the user asks *"What else is needed for full end-to-end production readiness?"*, what is that list?
   3. Bundle all high-ROI additions (error handling, responsive styles, documentation, test scripts, CLI flags, configuration hooks) into the initial delivery by default.
 - **ภาษาไทย:** **ห้ามทำแค่พอผ่านรอบแรกแล้วกั๊กฟีเจอร์ไว้รอให้ผู้ใช้ทวงถาม** ทุกครั้งก่อนส่งงาน ให้รัน **Pre-Ship Self-Expansion Loop** ถามตัวเองล่วงหน้าเสมอว่า *"ถ้าส่งแค่นี้แล้วผู้ใช้ถามว่าต้องทำอะไรเพิ่มให้ครบวงจรที่สุด?"* จากนั้นมัดรวมฟีเจอร์เสริมที่มีคุณค่าสูง (High-ROI polish, error handling, scripts, doc) ทำให้เสร็จครบจบในรอบเดียวทันที
+
+### 🗡️ Sharpened Pre-Ship Expansion (เน้นความทนทานของโค้ด ไม่ใช่แถมฟีเจอร์บวม)
+- **English:** Pre-Ship expansion must prioritize **Engineering Depth and System Resilience** over superficial feature bloat:
+  1. Robust Error Boundaries, retry policies, and fallback handling.
+  2. Edge-case guards (empty states, network drops, malformed data shapes).
+  3. Strict type coverage and sensible configuration defaults.
+  4. Clear user feedback and operational observability (clean logs).
+- **ภาษาไทย:** **เน้นความทนทานระดับ Senior Staff Engineer:** การคิดเผื่อส่งมอบครบวงจรต้องโฟกัสที่ **ความเสถียรและความแข็งแกร่งของสถาปัตยกรรม** (Error Handling, Retry, Fallback, Edge Cases) หลีกเลี่ยงการเพิ่มฟีเจอร์หน้าบ้านที่ไม่จำเป็น (Feature Bloat)
 
 ---
 
