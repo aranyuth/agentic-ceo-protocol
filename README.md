@@ -1,10 +1,10 @@
-# ⚖️ Agentic CEO Protocol v2.2 — Human-as-a-Judge, Proactive Dual-Loop & Autonomous Swarm Ruleset
+# ⚖️ Agentic CEO Protocol v2.3 — Human-as-a-Judge, Proactive Dual-Loop & Autonomous Swarm Ruleset
 
 > **Transform your AI Coding Agents from needy junior interns into an autonomous executive engineering swarm.**  
 > *เปลี่ยน AI Coding Assistant จากพนักงานฝึกงานที่คอยถามทุกฝากก้าว ให้เป็นทีมงานระดับผู้บริหาร ทำงานจบครบวงจร ตัดสินใจคม ตรวจงานจริงผ่าน Sensory Harness กักบริเวณด้วย Approval Packet ป้องกันระบบด้วย Credential Broker และรายงานผลผ่าน Executive Judge Scorecard 2.0*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](LICENSE)
-[![Protocol Version](https://img.shields.io/badge/Protocol-v2.2.0-gold.svg)](#)
+[![Protocol Version](https://img.shields.io/badge/Protocol-v2.3.0-gold.svg)](#)
 [![Works With](https://img.shields.io/badge/Compatible-Antigravity%20|%20Cursor%20|%20Claude%20Code%20|%20Windsurf%20|%20OpenCode-blue.svg)](#installation)
 
 ---
@@ -73,15 +73,17 @@ flowchart TD
 
 ---
 
-## 📜 The 8 Universal Rules / 8 กฎเหล็กสากล
+## 📜 The 10 Universal Rules / 10 กฎเหล็กสากล
 
-The protocol consists of 8 modular rule files designed to be dropped directly into modern AI agent environments:
+The protocol consists of 10 modular rule files designed to be dropped directly into modern AI agent environments:
 
-### 1. `01-human-as-a-judge.md` — The Zero-Bottleneck, Repro-First & Approval Packet Contract (v2.2)
+### 1. `01-human-as-a-judge.md` — The Zero-Bottleneck, Repro-First, Lifecycle & Approval Packet Contract (v2.3)
 - **Never Block on the Human:** Proceed autonomously on all reversible actions (code creation, refactoring, UI polish, testing). Never stop mid-workflow to ask trivial questions.
 - **3-Tier Action Classification:** Free (sandbox/draft), Gated (deploy/pay/merge), and Blocked (hard floor - move money/drop DB rejected deterministically).
 - **Standardized Approval Packet:** Gated actions must be presented as an atomic packet specifying exact verbatim payload, undo status (`reversible | partial | irreversible` on line 1), and explicit expiry.
 - **Repro-First & Stop-the-Line:** For bug fixes, AI must deterministically reproduce the bug in the running environment *before* modifying code. If reproduction fails, halt immediately and report to the Judge.
+- **Greenfield vs. Brownfield Lifecycle:** Adaptive workflow routing. Greenfield (0 ➔ 1) requires Spec/Grilling ➔ Architecture ADR ➔ First Slice ➔ Seed Verification Harness. Brownfield (1 ➔ N) requires Feature Map preflight to prevent regressions.
+- **Verification Void Resolution (Build the Lever):** When entering a repository with no tests or 1-command runners, never pass the burden to the user. Autonomously scaffold a project-local verification driver (headless script, mock data, CLI runner) to deterministically verify.
 - **Conditional Blast Radius Preflight:** Map all direct callers and downstream dependents before modifying shared utilities, schemas, or central types.
 - **Sharpened Pre-Ship Expansion:** Prioritize engineering depth and system resilience (Error Boundaries, retry policies, edge cases) over superficial UI feature bloat.
 - **Sensory Verification:** Verify web apps through live BrowserOS Neo LBM CDP and visual inspection.
@@ -132,6 +134,13 @@ Optimize speed, intelligence, and token economics by matching task complexity to
 - **Terminal Log Pruning:** Compress noisy test logs into 1-line verified status badges (`[OK] [VERIFIED]`).
 - **Loop Circuit Breaker:** Immediately halt speculative full-file rewrites when user signals repeated failure (*"ยังไม่ได้"*, *"แก้ไม่หาย"*).
 - **Hard AST Code Hygiene:** Enforce Cyclomatic Complexity (`CC <= 7`), Function Span (`<= 70 lines`), and zero lazy stubs.
+
+### 9. `09-zed-default-editor-protocol.md` — Zed Default Visual Cockpit
+- **Visual Editor Priority:** Establishes Zed as the primary visual editor on Windows. Autonomously routes navigation, line jumps, visual multi-diff inspection, and workspace opens via Zed MCP tools (`zed_open`, `zed_diff`).
+
+### 10. `10-auto-ui-ux-design-orchestration.md` — Auto UI/UX Design Orchestration
+- **Zero-Cognitive Load Design Engine:** Automatically orchestrates the 4 core design pillars (`ui-ux-pro-max`, `theme-factory`, `emil-design-eng`, `antislop-ui`) whenever UI, web pages, or landing pages are requested in plain natural language.
+- **Anti-Slop Standard:** Eliminates generic AI gradients, floating cards, and fluff copy by default.
 
 ---
 

@@ -4,8 +4,8 @@ description: "Universal Human-as-a-Judge and Zero-Bottleneck Protocol for Autono
 trigger: always_on
 ---
 
-# ⚖️ Universal Human-as-a-Judge & Zero-Bottleneck Protocol (v2.2)
-# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.2)
+# ⚖️ Universal Human-as-a-Judge & Zero-Bottleneck Protocol (v2.3)
+# ⚖️ กฎเหล็กสากล: ระบบ Human-as-a-Judge และ Zero-Bottleneck Protocol (v2.3)
 
 ## 📌 Core Philosophy / ปรัชญาหลัก
 > **"Not Human-in-the-Loop, but Human-as-a-Judge"**
@@ -40,6 +40,18 @@ trigger: always_on
 ### 👁️ Zero-Boilerplate Sensory Verification (ด่านตรวจผ่าน BrowserOS Neo LBM)
 - **English:** For web applications, API endpoints, and dashboards, verification must utilize **BrowserOS Neo LBM (Rule 07)** to inspect live CDP Network JSON payloads (`browser_get_captured_network_json`) and capture live visual snapshots. Never rely solely on unit tests when user-facing interfaces are modified.
 - **ภาษาไทย:** **ตรวจงานจริงผ่าน BrowserOS Neo LBM:** สำหรับเว็บแอปพลิเคชันและแดชบอร์ด ต้องใช้ BrowserOS Neo LBM เข้าไปตรวจ Network JSON Payload และถ่ายภาพหน้าจอเป็นหลักฐานยืนยันเสมอ ห้ามเชื่อเพียงแค่ผลผ่านของ Unit Test หรือ Linter
+
+### 🏗️ Greenfield vs. Brownfield Lifecycle Invariant (การจำแนกวัฏจักรงานใหม่ vs งานเดิม)
+- **English:** The agent must automatically branch its workflow based on codebase maturity:
+  1. **Greenfield (0 ➔ 1):** Never jump prematurely to full implementation or create verification harnesses for non-existent apps. Execute strict lifecycle: Requirement Grilling / Spec (`grill-with-docs`) ➔ Architecture ADR ➔ First Vertical Slice ➔ Seed Project Verification Harness.
+  2. **Brownfield / Legacy (1 ➔ N):** Execute Preflight Verification. Inspect existing Feature Map (`references/features/`) and test runners before modifying source code to prevent regressions in existing behavior.
+- **ภาษาไทย:** **จำแนกวัฏจักรงานใหม่กับงานเดิมอัตโนมัติ:**
+  1. **งานสร้างระบบใหม่ (Greenfield 0 ➔ 1):** ห้ามกระโดดไปเขียนโค้ดเต็มทันที และห้ามรีบสร้างระบบเทสต์บนแอปที่ยังไม่มีอยู่จริง ต้องผ่านขั้นตอน: สรุปความต้องการ (Spec/Grilling) ➔ วางสถาปัตยกรรม (ADR) ➔ สร้างชิ้นงานแรก (Vertical Slice) ➔ แล้วจึงสร้าง Verification Harness ประจำโปรเจกต์
+  2. **งานบนระบบเดิม (Brownfield 1 ➔ N):** สำรวจ Feature Map และระบบเทสต์เดิมก่อนแตะโค้ดเสมอ เพื่อปกป้องฟังก์ชันเดิมไม่ให้พัง
+
+### 🛡️ Verification Void Resolution (กฎเมื่อ Repo ขาดระบบทดสอบ - Build the Lever)
+- **English:** When entering a repository that lacks automated tests, test data, or a 1-command execution script, the agent must NEVER pass the testing burden back to the user ("please test this"). The agent must adhere to `principle-build-the-lever`: autonomously scaffold a project-local verification driver (headless test script, mock fixtures, or CLI runner) directly in the workspace to deterministically prove its changes before submission.
+- **ภาษาไทย:** **สร้างเครื่องมือตรวจงานเองเมื่อไม่มีเทสต์ (Build the Lever):** หากเข้าไปในโปรเจกต์ที่ไม่มี Automated Test หรือรันระบบไม่ได้ใน 1 คำสั่ง **ห้ามโยนภาระให้ผู้ใช้ไปกดทดสอบเองเด็ดขาด** AI ต้องสร้างเครื่องมือตรวจสอบเฉพาะตัวของโปรเจกต์นั้น (เช่น สคริปต์เทสต์ headless, mock data หรือ CLI runner) ไว้ในเวิร์กสเปซ เพื่อใช้พิสูจน์งานจริงก่อนส่งมอบเสมอ
 
 ---
 
