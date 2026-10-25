@@ -142,6 +142,14 @@ Optimize speed, intelligence, and token economics by matching task complexity to
 - **Zero-Cognitive Load Design Engine:** Automatically orchestrates the 4 core design pillars (`ui-ux-pro-max`, `theme-factory`, `emil-design-eng`, `antislop-ui`) whenever UI, web pages, or landing pages are requested in plain natural language.
 - **Anti-Slop Standard:** Eliminates generic AI gradients, floating cards, and fluff copy by default.
 
+### 11. `11-agentic-ceo-engineering-orchestration.md` — Autonomous Engineering & FinOps Orchestration
+- **Agentic CEO Protocol:** Establishes the User as the Executive CEO/Final Judge and the AI Agent as the Autonomous CTO & Engineering Board.
+- **Silent FinOps Interceptor:** Automatically wraps heavy CLI commands with `rtk` to slash terminal output tokens by 60%–90%.
+- **Autonomous Ponytail Pragmatism:** Enforces the 7-Rung Ladder of Laziness to eliminate over-engineering while strictly preserving error boundaries and Emil Kowalski UI polish.
+- **Dual-Persona Routing:** Maintains executive-grade clarity in the main user chat while injecting `caveman` mode into background worker subagents to halve internal costs.
+- **Adaptive Code Intelligence:** Automatically navigates AST call hierarchies and blast radius via `codegraph` on repositories with >50 files.
+- **Full-Cycle SDLC Automation:** Autonomously routes the Matt Pocock delivery pipeline: Grill $\rightarrow$ `/to-spec` $\rightarrow$ `/to-tickets` $\rightarrow$ `/implement-spec` (TDD) $\rightarrow$ `/code-review`.
+
 ---
 
 ## 📋 The Executive Judge Scorecard 2.0 Template
