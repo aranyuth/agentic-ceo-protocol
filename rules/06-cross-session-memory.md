@@ -141,3 +141,50 @@ trigger: always_on
 - **"Why Didn't You Tell Me?" Observability:**
   - Every triage decision is logged via `memory_record_decision`. When asked why an event was withheld, answer strictly from durable logs (showing timestamp, baseline z-score, rubric tier, and route reason), converting user inquiries into approved threshold updates.
 
+---
+
+## 11. 🚀 Self-Cleaning Skill Layer & Auto-Harness Invariants (v2.3)
+### ระบบกลั่นกรองและควบคุมเพดานความจำอัตโนมัติ (AutoHarness-Inspired Protocol)
+- **English (Adopted from `tigerless-labs/autoharness`):**
+  1. **Strict Altitude Cap on Distilled Skills (`AUTOHARNESS_SKILL_BODY_MAX_LINES = 25`):**
+     - When synthesizing or updating any auto-distilled `SKILL.md`, the body MUST NOT exceed **25 non-blank lines**.
+     - Auto-generated skills are high-altitude execution rules, NOT narrative transcripts. Detailed logs, historical rationale, and transcript evidence belong strictly in `references/evidence-<hash>.md` or `references/`.
+  2. **Front-Loaded Trigger Invariant (`AUTOHARNESS_INDEX_DESC_MAX_CHARS = 60`):**
+     - The first sentence of the skill description frontmatter MUST explicitly declare its **Trigger Cue within the first 60 characters** (e.g., `description: "Verify web apps using Playwright on localhost when testing UI..."`).
+     - *Why:* Prevents trigger condition drop-off when index scanners truncate descriptions. Any skill proposal where the trigger condition is buried past character 60 must be rejected or rewritten.
+  3. **Tri-Signal Lifecycle Telemetry (`Use` vs. `View` vs. `Patch`):**
+     - Memory persistence and skill survival are determined by 3 decoupled signals:
+       - **`use`**: Skill or pattern was actively invoked and executed (counts toward survival rate).
+       - **`view`**: Skill or reference was inspected/read into context (evidence of recall relevance, but NOT adherence).
+       - **`patch`**: Skill received an incremental refinement or correction.
+     - **Opportunity-Relative Denominator:** Usage rate is measured as `loads / requests_arrived_since_creation`, NOT calendar days. Closing the notebook lid does not age out or penalize mature skills.
+  4. **Probation & Capacity-Bound Archiving (Archive, Never Delete):**
+     - Newly landed skills remain in a **Probation Period** (e.g., 100 requests) where they cannot be archived, giving them a fair sample.
+     - Once mature, skills face capacity contention: nothing is archived until the mature pool exceeds capacity (e.g., 50 project / 20 global), after which the lowest usage rate is moved to `.archive/<skill>/`. Moving a folder back revives it with full lineage intact.
+  5. **Curator Umbrella Folding & Append-Only Ledger:**
+     - Periodic passes (or during `/compact`) evaluate the entire skill pool. Overlapping or near-duplicate skills must be **folded under an umbrella skill** rather than stacked.
+     - Every creation, patch, fold, and archive is recorded in an append-only `.ledger.jsonl` with an action, reason, and evidence path.
+- **ภาษาไทย:**
+  1. **เพดานความยาว 25 บรรทัด (Altitude Cap):** ตัวเนื้อหา `SKILL.md` ที่สังเคราะห์ขึ้นต้องมีความยาวไม่เกิน 25 บรรทัด (ไม่นับบรรทัดว่าง) บังคับให้เขียนเฉพาะกฎปฏิบัติที่ชัดเจน ส่วนหลักฐาน Transcript ให้เก็บใน `references/evidence-<hash>.md`
+  2. **คำสั่งเรียกใช้ต้องอยู่ 60 ตัวอักษรแรก (Front-Loaded Trigger):** ประโยคแรกของ Description ต้องระบุเงื่อนไขการเรียกใช้ทันที ป้องกันไม่ให้คำสั่งหายเมื่อถูกตัดคำในหน้าดัชนี
+  3. **วัดผลด้วย 3 สัญญาณ (Tri-Signal Telemetry):** แยก `use` (เรียกใช้จริง), `view` (เปิดอ่าน), และ `patch` (แก้ไข) โดยวัดความถี่เทียบกับจำนวน Request คำสั่ง ไม่ใช่วันที่ตามปฏิทิน เพื่อไม่ให้ลบสกิลทิ้งตอนปิดจอโน้ตบุ๊ก
+  4. **ช่วงทดลองงานและย้ายเข้ากรุเมื่อเต็ม (Probation & Archive):** สกิลใหม่มีช่วงทดลองงาน 100 คำสั่ง เมื่อพ้นช่วงแล้วหากคลังสกิลเต็ม จะย้ายสกิลที่ใช้น้อยที่สุดไปที่ `.archive/` โดยไม่ลบถาวร
+  5. **หลอมรวมสกิลซ้ำซ้อน (Curator Fold):** รวมสกิลที่คล้ายกันเข้าเป็นร่มเดียวกัน พร้อมจดบันทึกลง `.ledger.jsonl` ทุกครั้ง
+
+---
+
+## 12. ⚡ XERJ-Powered Dynamic Retrieval & Zero-Token Indexing (v2.3)
+### การค้นหาทักษะและความจำระดับ AST ผ่าน XERJ Engine โดยไม่เปลือง Token
+- **English:**
+  1. **Zero-Token Discovery Index:**
+     - Rather than injecting heavy static skill indexes into every session-start prompt, the workspace skills, rules, and memory references are indexed via `xerj autoindex` or `xerj brain`.
+  2. **AST-Aware Definition Retrieval (`xerj def` & `xerj search`):**
+     - When agents need to locate a specific procedure, tool contract, or code invariant across workspaces, they query `xerj def "<symbol>"` or `xerj search "<query>"` to retrieve exact `file:line` blocks and passages.
+  3. **Reference Coding Integration (`xerj code`):**
+     - For novel architectural implementations or complex patterns, agents use `xerj code <corpus> "<query>"` to fetch verified open-source solutions into memory before authoring new skills.
+- **ภาษาไทย:**
+  1. **ค้นหาความจำแบบ Zero-Token ด้วย XERJ:** ทำการ Index คลังสกิลและกฎความจำด้วย XERJ เพื่อให้ Agent สามารถค้นหาและดึงเฉพาะส่วนที่ต้องการแบบ On-Demand โดยไม่ต้องยัดข้อความ Index ยาวๆ ค้างไว้ในบริบทแชต
+  2. **ดึงเฉพาะจุดระดับ `file:line` (`xerj def` / `xerj search`):** เรียกดูเฉพาะส่วนฟังก์ชันหรือนิยามที่เกี่ยวข้อง ประหยัด Token ได้มากกว่า 80%
+  3. **ตรวจสอบโค้ดอ้างอิงก่อนสร้างสกิล (`xerj code`):** ค้นหารูปแบบโค้ดต้นแบบที่ผ่านการพิสูจน์แล้วผ่านคลัง Corpus ก่อนสร้างเป็นสกิลใหม่
+
+
